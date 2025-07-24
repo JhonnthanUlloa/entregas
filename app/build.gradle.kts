@@ -2,8 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    id("com.google.devtools.ksp") version "1.9.24-1.0.20"
-
+    id("com.google.devtools.ksp") version "1.9.24-1.0.20" // <--- ESTA ES LA QUE SIRVE
 }
 
 android {
