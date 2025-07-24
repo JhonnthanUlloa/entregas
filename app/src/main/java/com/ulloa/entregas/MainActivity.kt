@@ -52,6 +52,11 @@ sealed class Screen(val route: String) {
     object Dashboard : Screen("dashboard")
     object EncomiendasList : Screen("encomiendas_list")
     object Profile : Screen("profile")
+    object Search : Screen("search")
+    object Assign : Screen("assign")
+    object CentroAcopio : Screen("centro_acopio")
+    object ConsultarMensajero : Screen("consultar_mensajero")
+    object Redigitalizar : Screen("redigitalizar")
     object EncomiendaDetail : Screen("encomienda_detail/{encomiendaId}") {
         fun createRoute(encomiendaId: String) = "encomienda_detail/$encomiendaId"
     }
@@ -67,6 +72,11 @@ fun AppNavigation() {
         composable(Screen.Main.route) {
             MainScreen(rootNavController = navController)
         }
+        composable(Screen.Search.route) { SearchScreen(navController) }
+        composable(Screen.Assign.route) { AssignScreen(navController) }
+        composable(Screen.CentroAcopio.route) { CentroAcopioScreen(navController) }
+        composable(Screen.ConsultarMensajero.route) { ConsultarMensajeroScreen(navController) }
+        composable(Screen.Redigitalizar.route) { RedigitalizarScreen(navController) }
         composable(Screen.EncomiendaDetail.route) { backStackEntry ->
             val encomiendaId = backStackEntry.arguments?.getString("encomiendaId")
             EncomiendaDetailScreen(navController = navController, encomiendaId = encomiendaId ?: "N/A")
@@ -295,6 +305,41 @@ fun DashboardScreen(navController: NavController) {
                     onClick = { /* TODO: Logic */ }
                 )
             }
+            item {
+                ActionButton(
+                    text = "Buscar Encomiendas",
+                    icon = Icons.Default.Search,
+                    onClick = { navController.navigate(Screen.Search.route) }
+                )
+            }
+            item {
+                ActionButton(
+                    text = "Asignar Encomienda",
+                    icon = Icons.Default.Assignment,
+                    onClick = { navController.navigate(Screen.Assign.route) }
+                )
+            }
+            item {
+                ActionButton(
+                    text = "Centro de Acopio",
+                    icon = Icons.Default.LocalShipping,
+                    onClick = { navController.navigate(Screen.CentroAcopio.route) }
+                )
+            }
+            item {
+                ActionButton(
+                    text = "Consultar Mensajero",
+                    icon = Icons.Default.PersonSearch,
+                    onClick = { navController.navigate(Screen.ConsultarMensajero.route) }
+                )
+            }
+            item {
+                ActionButton(
+                    text = "Redigitalizar",
+                    icon = Icons.Default.Edit,
+                    onClick = { navController.navigate(Screen.Redigitalizar.route) }
+                )
+            }
         }
     }
 }
@@ -519,6 +564,136 @@ fun ProfileScreen(navController: NavController) {
             }
         }) {
             Text("Cerrar Sesión")
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SearchScreen(navController: NavController) {
+    Scaffold(topBar = {
+        TopAppBar(title = { Text("Buscar Encomiendas") }, navigationIcon = {
+            IconButton(onClick = { navController.navigateUp() }) {
+                Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
+            }
+        })
+    }) { padding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding)
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            OutlinedTextField(value = "", onValueChange = {}, label = { Text("Desde") }, modifier = Modifier.fillMaxWidth())
+            OutlinedTextField(value = "", onValueChange = {}, label = { Text("Hasta") }, modifier = Modifier.fillMaxWidth())
+            OutlinedTextField(value = "", onValueChange = {}, label = { Text("Estado") }, modifier = Modifier.fillMaxWidth())
+            OutlinedTextField(value = "", onValueChange = {}, label = { Text("Buscar") }, modifier = Modifier.fillMaxWidth())
+            Button(onClick = { /* TODO */ }, modifier = Modifier.fillMaxWidth()) {
+                Text("Buscar")
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun AssignScreen(navController: NavController) {
+    Scaffold(topBar = {
+        TopAppBar(title = { Text("Asignar Encomienda") }, navigationIcon = {
+            IconButton(onClick = { navController.navigateUp() }) {
+                Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
+            }
+        })
+    }) { padding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding)
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            OutlinedTextField(value = "", onValueChange = {}, label = { Text("Código Encomienda") }, modifier = Modifier.fillMaxWidth())
+            OutlinedTextField(value = "", onValueChange = {}, label = { Text("Nombre CAF") }, modifier = Modifier.fillMaxWidth())
+            Button(onClick = { /* TODO */ }, modifier = Modifier.fillMaxWidth()) {
+                Text("Aceptar")
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun CentroAcopioScreen(navController: NavController) {
+    Scaffold(topBar = {
+        TopAppBar(title = { Text("Entregar a Centro de Acopio") }, navigationIcon = {
+            IconButton(onClick = { navController.navigateUp() }) {
+                Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
+            }
+        })
+    }) { padding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding)
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            OutlinedTextField(value = "", onValueChange = {}, label = { Text("Código Encomienda") }, modifier = Modifier.fillMaxWidth())
+            OutlinedTextField(value = "", onValueChange = {}, label = { Text("Nombre CAF") }, modifier = Modifier.fillMaxWidth())
+            Button(onClick = { /* TODO */ }, modifier = Modifier.fillMaxWidth()) {
+                Text("Aceptar")
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ConsultarMensajeroScreen(navController: NavController) {
+    Scaffold(topBar = {
+        TopAppBar(title = { Text("Consultar Mensajero") }, navigationIcon = {
+            IconButton(onClick = { navController.navigateUp() }) {
+                Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
+            }
+        })
+    }) { padding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding)
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            OutlinedTextField(value = "", onValueChange = {}, label = { Text("Código Encomienda") }, modifier = Modifier.fillMaxWidth())
+            Button(onClick = { /* TODO */ }, modifier = Modifier.fillMaxWidth()) {
+                Text("Buscar")
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun RedigitalizarScreen(navController: NavController) {
+    Scaffold(topBar = {
+        TopAppBar(title = { Text("Redigitalizar") }, navigationIcon = {
+            IconButton(onClick = { navController.navigateUp() }) {
+                Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
+            }
+        })
+    }) { padding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding)
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            OutlinedTextField(value = "", onValueChange = {}, label = { Text("Código Encomienda") }, modifier = Modifier.fillMaxWidth())
+            Button(onClick = { /* TODO */ }, modifier = Modifier.fillMaxWidth()) {
+                Text("Guardar")
+            }
         }
     }
 }
